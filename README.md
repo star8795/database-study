@@ -176,6 +176,23 @@
 5. Default
     - 해당 속성에 대한 기본값을 설정
     - 만약 값이 명시되지 않으면 (null), 지정된 기본값이 자동으로 입력
+6. Auto Increment (AI)
+    - MySQL에서 사용되는 제약조건
+    - 기본 키에 주로 사용되는, 새로운 행이 추가될 때마다 자동으로 숫자가 증가되는 제약조건
+7. Foreign Key (FK)
+    - 참조(Referenctial) 무결성 제약조건
+    - 외래 키 값은 NULL일 수 없고, 참조하는 릴레이션의 기본키 값과 같아야 한다.
+    - 특징
+        - 관계 데이터 모델에서 릴레이션 간의 관계를 표현
+        - 다른 릴레이션의 기본키를 참조하는 속성
+        - 참조하고(외래키) 참조되는(기본키) 양쪽 릴레이션의 도메인은 서로 같아야 한다.
+        - NULL 값과, 중복값이 허용된다.
+    - 문법
+    ```sql
+    FOREIGN KEY (참조하는컬럼명) REFERENCES 참조되는테이블명(참조되는컬럼명)
+    ```
+    - 일반적으로 1:N 관계일 경우, N 쪽에 외래키를 생성
+
 
 ## 데이터 타입
 1. 숫자형 데이터 타입
@@ -203,3 +220,24 @@
         - ENUM('봄', '여름', '가을', '겨울')
 - 도메인 무결성 제약조건 : 각 속성은 도메인(데이터 타입)에 지정된 값만 가져야 한다.
 
+### CREATE 생성
+  - 새로운 데이터베이스 객체를 생성
+    - CREATE TABLE : 테이블 생성
+    - CREATE DATABASE : 데이터베이스 생성 (= CREATE SCHEMA)
+    - CREATE INDEX : 인덱스 생성
+    - CREATE VIEW : 뷰 생성
+    - CREATE USER : 유저 생성
+
+### 외래키 참조
+```sql
+FOREIGN KEY (컬럼명) REFERENCES 참조할테이블명(참조할컬럼명)
+    ON DELETE [CASECADE|SET NULL|NO ACTION|SET DEFAULT]
+    ON UPDATE [CASECADE|SET NULL|NO ACTION|SET DEFAULT]
+```
+- 외래키 참조 옵션
+    - 참조된 키 값이 삭제되거나 수정될 때 외래키를 어떻게 할 것인지 선택
+- 옵션 종류
+    1. CASECADE : 참조된 키 값이 변경(삭제)되면 외래키도 함께 변경(삭제)됨
+    2. SET NULL : 참조된 키 값이 변경(삭제)되면 외래키를 'NULL'로 설정
+    3. NO ACTION : 참조된 키 값이 변경(삭제)가 안되게 작업을 막음
+    4. SET DEFAULT : 참조된 키 값이 변경(삭제)되면 외래키를 '기본값'으로 설정
